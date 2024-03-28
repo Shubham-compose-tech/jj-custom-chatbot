@@ -2,7 +2,8 @@ import type { ReactNode } from 'react';
 import { Switch, Route, useRouteMatch } from 'react-router-dom';
 import Spacings from '@commercetools-uikit/spacings';
 import Channels from './components/channels';
-import Welcome from './components/welcome';
+// import Welcome from './components/welcome';
+import { Chat } from './components/chatbot/Chat';
 
 type ApplicationRoutesProps = {
   children?: ReactNode;
@@ -28,7 +29,8 @@ const ApplicationRoutes = (_props: ApplicationRoutesProps) => {
           <Channels linkToWelcome={match.url} />
         </Route>
         <Route>
-          <Welcome />
+          {/* <Welcome /> */}
+          <Chat />
         </Route>
       </Switch>
     </Spacings.Inset>

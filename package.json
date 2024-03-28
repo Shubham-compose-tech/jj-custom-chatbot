@@ -22,6 +22,8 @@
     "@apollo/client": "3.7.14",
     "@babel/core": "^7.22.17",
     "@babel/runtime-corejs3": "^7.22.15",
+    "@chatscope/chat-ui-kit-react": "^2.0.3",
+    "@chatscope/chat-ui-kit-styles": "^1.4.0",
     "@commercetools-frontend/actions-global": "22.22.0",
     "@commercetools-frontend/application-components": "22.22.0",
     "@commercetools-frontend/application-config": "22.22.0",
