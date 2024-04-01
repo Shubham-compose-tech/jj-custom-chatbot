@@ -7,6 +7,11 @@ const config = {
   name: 'Custom Chatbot',
   entryPointUriPath,
   cloudIdentifier: 'gcp-au',
+  headers:{
+    csp:{
+      "connect-src": ["${env:API_END_POINT}"],
+    }
+  },
   env: {
     development: {
       initialProjectKey: 'ct-assessment',
