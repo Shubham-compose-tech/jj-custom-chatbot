@@ -14,7 +14,11 @@ const Messages = ({ messages, loading }: any) => {
         typingIndicator={loading && <TypingIndicator content="typing" />}
       >
         {messages?.map((message: any, index: number) => (
-          <Message key={index} model={message}>
+          <Message
+            key={index}
+            model={message}
+            className={styless['message-box']}
+          >
             <Avatar
               name={message.sender}
               src={
