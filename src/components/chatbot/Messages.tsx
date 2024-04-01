@@ -14,7 +14,11 @@ const Messages = ({ messages, loading }: any) => {
         typingIndicator={loading && <TypingIndicator content="typing" />}
       >
         {messages?.map((message: any, index: number) => (
-          <Message key={index} model={message}>
+          <Message
+            key={index}
+            model={message}
+            className={styless['message-box']}
+          >
             <Avatar
               name={message.sender}
               src={
@@ -31,27 +35,3 @@ const Messages = ({ messages, loading }: any) => {
 };
 
 export default Messages;
-
-
-// const Messages = ({ messages, loading }: any) => {
-//   return (
-//     <div className={styless['messages-container']}>
-//       <MessageList typingIndicator={loading && <TypingIndicator content="typing" />}>
-//         {messages?.map((message: any, index: number) => (
-//           <Message key={index} model={message}>
-//             <Avatar
-//               name={message.sender}
-//               src={
-//                 message.sender === 'system'
-//                   ? 'https://chatscope.io/storybook/react/assets/joe-v8Vy3KOS.svg'
-//                   : 'https://chatscope.io/storybook/react/assets/zoe-E7ZdmXF0.svg'
-//               }
-//             />          
-//           </Message>
-          
-//         ))}
-//       </MessageList>
-//     </div>
-//   );
-// };
-// export default Messages;
