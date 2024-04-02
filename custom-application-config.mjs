@@ -10,7 +10,6 @@ const config = {
   headers:{
     csp:{
       "connect-src": ["${env:API_END_POINT}"],
-      "script-src": ["https://vercel.live/_next-live/feedback/feedback.js"]
     }
   },
   env: {
