@@ -13,14 +13,8 @@ export const Chat = () => {
       message: `Hello! How can I help you today?`,
       direction: 'incoming',
     },
-    {
-      sender: 'user',
-      message: 'give me details for my query',
-      direction: 'outgoing',
-    },
   ]);
   const [loading, setLoading] = useState(false);
-  console.log('check')
 
   const fetchApi = async (queryTxt: string) => {
     setLoading(true);
