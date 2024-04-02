@@ -17,5 +17,16 @@
 }
 
 .message-box div div{
-    white-space: nowrap!important;
+    white-space: normal!important;
+}
+
+.message-box div div span{
+    background-color: transparent!important;
+}
+.input-box{
+    position: fixed;
+    bottom: 0;
+    padding: 10px 0;
+    width:90%;
+    background: #fff;
 }
