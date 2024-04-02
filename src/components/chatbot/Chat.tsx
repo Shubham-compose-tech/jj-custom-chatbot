@@ -20,6 +20,7 @@ export const Chat = () => {
     },
   ]);
   const [loading, setLoading] = useState(false);
+  console.log('check')
 
   const fetchApi = async (queryTxt: string) => {
     setLoading(true);
