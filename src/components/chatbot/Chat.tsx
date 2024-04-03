@@ -61,14 +61,14 @@ export const Chat = () => {
       ]);
     } catch (error) {
       setIsError(true);
-      setErrorMsg('Timeout try again later');
+      setErrorMsg('Timeout :-/ try again later');
       console.error('There was a problem with the fetch operation:', error);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleMessageSend = async () => {
+  const handleMessageSend = () => {
     setMessages([
       ...messages,
       {
@@ -77,7 +77,7 @@ export const Chat = () => {
         direction: 'outgoing',
       },
     ]);
-    await fetchApi(query);
+    fetchApi(query);
     setQuery('');
   };
 
@@ -87,12 +87,14 @@ export const Chat = () => {
 
   return (
     <div className={styless.container}>
-      <Messages
-        messages={messages}
-        errorMsg={errorMsg}
-        isError={isError}
-        loading={loading}
-      />
+      <div className={styless['messages-wrapper']}>
+        <Messages
+          messages={messages}
+          errorMsg={errorMsg}
+          isError={isError}
+          loading={loading}
+        />
+      </div>
 
       <div className={styless['input-box']}>
         <MessageInput

@@ -20,7 +20,14 @@ const Messages = ({ messages, loading, errorMsg, isError }: any) => {
     <div className={styless['messages-container']}>
       <MessageList
         autoScrollToBottom={false}
-        typingIndicator={loading && <TypingIndicator content="typing" />}
+        typingIndicator={
+          loading && (
+            <TypingIndicator
+              content="typing"
+              className={styless['typing-indicator']}
+            />
+          )
+        }
       >
         {messages?.map((message: any, index: number) => (
           <Message
