@@ -7,13 +7,11 @@ import {
 } from '@chatscope/chat-ui-kit-react';
 import styless from './chat.module.css';
 
-const Messages = ({ messages, loading, errorMsg, isError }: any) => {
-  const handleCopy = (
-    e: React.ClipboardEvent<HTMLDivElement>,
-    message: string
-  ) => {
-    e.clipboardData.setData('text/plain', message);
+const Messages = ({ messages, loading }: any) => {
+  const handleCopy = (e: React.ClipboardEvent<HTMLDivElement>) => {
     e.preventDefault();
+    const selectedText = window.getSelection()?.toString() ?? '';
+    e.clipboardData?.setData('text/plain', selectedText);
   };
 
   return (
@@ -23,7 +21,7 @@ const Messages = ({ messages, loading, errorMsg, isError }: any) => {
         typingIndicator={
           loading && (
             <TypingIndicator
-              content="typing"
+              content="generating response"
               className={styless['typing-indicator']}
             />
           )
@@ -34,38 +32,18 @@ const Messages = ({ messages, loading, errorMsg, isError }: any) => {
             key={index}
             model={message}
             className={styless['message-box']}
-            onCopy={(e: React.ClipboardEvent<HTMLDivElement>) =>
-              handleCopy(e, message.message)
-            }
+            onCopy={(e: React.ClipboardEvent<HTMLDivElement>) => handleCopy(e)}
           >
             <Avatar
               name={message.sender}
               src={
                 message.sender === 'system'
-                  ? 'https://chatscope.io/storybook/react/assets/joe-v8Vy3KOS.svg'
+                  ? '/ai-bot.png'
                   : 'https://chatscope.io/storybook/react/assets/zoe-E7ZdmXF0.svg'
               }
             />
           </Message>
         ))}
-        {isError && (
-          <Message
-            model={{
-              message: errorMsg,
-              sender: 'system',
-              direction: 'incoming',
-              position: 2,
-            }}
-            className={styless['message-box']}
-          >
-            <Avatar
-              name={'system'}
-              src={
-                'https://chatscope.io/storybook/react/assets/joe-v8Vy3KOS.svg'
-              }
-            />
-          </Message>
-        )}
       </MessageList>
     </div>
   );

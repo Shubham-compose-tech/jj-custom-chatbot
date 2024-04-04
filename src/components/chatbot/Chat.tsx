@@ -15,8 +15,6 @@ export const Chat = () => {
     },
   ]);
   const [loading, setLoading] = useState(false);
-  const [errorMsg, setErrorMsg] = useState('');
-  const [isError, setIsError] = useState(false);
 
   const fetchApi = async (queryTxt: string) => {
     setLoading(true);
@@ -34,20 +32,11 @@ export const Chat = () => {
       );
 
       const data = await response.data;
-      // console.log('data',data)
-      const messageText =
-        data.data?.keys ??
-        data.data?.names ??
-        data.data?.products ??
-        data.data ??
-        data.data.error;
+      const messageText = data.data ?? data.data.error;
       let formattedMessage: any;
       if (typeof messageText === 'string') {
         formattedMessage = messageText;
-      } else if (Array.isArray(messageText)) {
-        formattedMessage = messageText.join('\n'); // join for arrays
       } else {
-        // Handle other data types (optional)
         formattedMessage = 'Invalid response received from server. Try again';
       }
 
@@ -60,8 +49,14 @@ export const Chat = () => {
         },
       ]);
     } catch (error) {
-      setIsError(true);
-      setErrorMsg('Timeout :-/ try again later');
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        {
+          sender: 'system',
+          message: 'Timeout :-/ try again later',
+          direction: 'incoming',
+        },
+      ]);
       console.error('There was a problem with the fetch operation:', error);
     } finally {
       setLoading(false);
@@ -88,12 +83,7 @@ export const Chat = () => {
   return (
     <div className={styless.container}>
       <div className={styless['messages-wrapper']}>
-        <Messages
-          messages={messages}
-          errorMsg={errorMsg}
-          isError={isError}
-          loading={loading}
-        />
+        <Messages messages={messages} loading={loading} />
       </div>
 
       <div className={styless['input-box']}>
