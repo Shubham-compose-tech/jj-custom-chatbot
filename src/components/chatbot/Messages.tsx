@@ -38,7 +38,7 @@ const Messages = ({ messages, loading }: any) => {
               name={message.sender}
               src={
                 message.sender === 'system'
-                  ? '/ai-bot.png'
+                  ? 'https://res.cloudinary.com/cr07/image/upload/v1712217203/ai-bot_bbdtsd.png'
                   : 'https://chatscope.io/storybook/react/assets/zoe-E7ZdmXF0.svg'
               }
             />
