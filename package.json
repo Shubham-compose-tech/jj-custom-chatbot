@@ -63,6 +63,7 @@
     "@formatjs/cli": "6.2.7",
     "@jest/types": "29.6.3",
     "@manypkg/cli": "0.21.3",
+    "@tabler/icons-react": "^3.1.0",
     "@testing-library/dom": "^9.3.1",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "12.1.5",
@@ -92,6 +93,7 @@
     "react-intl": "^6.4.7",
     "react-redux": "7.2.9",
     "react-router-dom": "5.3.4",
+    "react-speech-recognition": "^3.10.0",
     "redux": "4.2.1",
     "typescript": "5.0.4"
   },
@@ -105,5 +107,7 @@
     "@types/react-router-dom": "<6",
     "headers-polyfill": "3.3.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@types/react-speech-recognition": "^3.9.5"
+  }
 }

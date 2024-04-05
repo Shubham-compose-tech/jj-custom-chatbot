@@ -1,9 +1,13 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import '@chatscope/chat-ui-kit-styles/dist/default/styles.min.css';
 import { MessageInput } from '@chatscope/chat-ui-kit-react';
 import Messages from './Messages';
 import styless from './chat.module.css';
-import axios from 'axios';
+import SpeechRecognition, {
+  useSpeechRecognition,
+} from 'react-speech-recognition';
+import { IconMicrophone } from '@tabler/icons-react';
+import { fetchProductDetails } from '../../apis/fetchProductDetails';
 
 export const Chat = () => {
   const [query, setQuery] = useState('');
@@ -16,30 +20,55 @@ export const Chat = () => {
   ]);
   const [loading, setLoading] = useState(false);
 
-  const fetchApi = async (queryTxt: string) => {
-    setLoading(true);
+  const {
+    transcript,
+    listening,
+    resetTranscript,
+    browserSupportsSpeechRecognition,
+  } = useSpeechRecognition();
+
+  if (!browserSupportsSpeechRecognition) {
+    return <span>Speech recognition is not supported.</span>;
+  }
+
+  const requestMicrophonePermission = async () => {
     try {
-      const response = await axios.post(
-        'https://oc8ogahd5j.execute-api.us-west-2.amazonaws.com/products/details',
-        {
-          query: queryTxt,
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      );
+      await navigator.mediaDevices.getUserMedia({ audio: true });
+    } catch (error) {
+      console.error('Error accessing microphone:', error);
+    }
+  };
 
-      const data = await response.data;
-      const messageText = data.data ?? data.data.error;
-      let formattedMessage: any;
-      if (typeof messageText === 'string') {
-        formattedMessage = messageText;
-      } else {
-        formattedMessage = 'Invalid response received from server. Try again';
-      }
+  const toggleListening = () => {
+    if (!listening) {
+      requestMicrophonePermission().then(() => {
+        resetTranscript();
+        SpeechRecognition.startListening();
+      });
+    } else {
+      SpeechRecognition.stopListening();
+    }
+  };
 
+  useEffect(() => {
+    if (transcript) {
+      // Update chatbot state with the recognized speech (transcript)
+      setQuery(transcript);
+    }
+  }, [transcript]);
+
+  const handleMessageSend = async () => {
+    setMessages([
+      ...messages,
+      {
+        sender: 'user',
+        message: query,
+        direction: 'outgoing',
+      },
+    ]);
+    try {
+      setLoading(true);
+      const formattedMessage = await fetchProductDetails(query);
       setMessages((prevMessages) => [
         ...prevMessages,
         {
@@ -57,27 +86,10 @@ export const Chat = () => {
           direction: 'incoming',
         },
       ]);
-      console.error('There was a problem with the fetch operation:', error);
     } finally {
       setLoading(false);
+      setQuery('');
     }
-  };
-
-  const handleMessageSend = () => {
-    setMessages([
-      ...messages,
-      {
-        sender: 'user',
-        message: query,
-        direction: 'outgoing',
-      },
-    ]);
-    fetchApi(query);
-    setQuery('');
-  };
-
-  const handleInputChange = (val: string) => {
-    setQuery(val);
   };
 
   return (
@@ -89,12 +101,22 @@ export const Chat = () => {
       <div className={styless['input-box']}>
         <MessageInput
           autoFocus
-          placeholder="Type your message…"
+          placeholder={listening ? 'Listening..' : 'Type your message…'}
           attachButton={false}
           value={query}
-          onChange={handleInputChange}
+          onChange={(val: string) => setQuery(val)}
           onSend={handleMessageSend}
+          style={{ flexGrow: 1 }}
         />
+
+        <button
+          className={`${styless['mic-button']} ${
+            listening ? styless['ripple'] : ''
+          }`}
+          onClick={toggleListening}
+        >
+          <IconMicrophone color="#9ba9be" stroke={2} />
+        </button>
       </div>
     </div>
   );
