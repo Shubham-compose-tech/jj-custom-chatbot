@@ -109,6 +109,7 @@
     "headers-polyfill": "3.3.0"
   },
   "devDependencies": {
-    "@types/react-speech-recognition": "^3.9.5"
+    "@types/react-speech-recognition": "^3.9.5",
+    "@types/regenerator-runtime": "^0.13.5"
   }
 }
