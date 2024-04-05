@@ -95,6 +95,7 @@
     "react-router-dom": "5.3.4",
     "react-speech-recognition": "^3.10.0",
     "redux": "4.2.1",
+    "regenerator-runtime": "^0.14.1",
     "typescript": "5.0.4"
   },
   "resolutions": {
@@ -108,6 +109,7 @@
     "headers-polyfill": "3.3.0"
   },
   "devDependencies": {
-    "@types/react-speech-recognition": "^3.9.5"
+    "@types/react-speech-recognition": "^3.9.5",
+    "@types/regenerator-runtime": "^0.13.5"
   }
 }
