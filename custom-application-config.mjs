@@ -12,7 +12,7 @@ const config = {
       'connect-src': ['${env:API_END_POINT}'],
     },
     permissionsPolicies: {
-      microphone: '(self)',
+      microphone: "'self' https://jj-custom-chatbot.vercel.app/",
     },
   },
   env: {
