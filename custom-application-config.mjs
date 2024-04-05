@@ -12,7 +12,8 @@ const config = {
       'connect-src': ['${env:API_END_POINT}'],
     },
     permissionsPolicies: {
-      microphone: "'self' https://jj-custom-chatbot.vercel.app/",
+      microphone:
+        "'self' https://jj-custom-chatbot.vercel.app/ https://mc.australia-southeast1.gcp.commercetools.com/ct-assessment/custom-chatbot",
     },
   },
   env: {
