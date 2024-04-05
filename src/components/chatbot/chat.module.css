@@ -30,8 +30,9 @@
     white-space: normal!important;
 }
 
-.message-box div div span{
+.message-box div div span, .input-box span{
     background-color: transparent!important;
+    color: #1d1c1d!important;
 }
 
 /* .typing-indicator{
