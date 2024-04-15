@@ -93,6 +93,12 @@ export const Chat = () => {
     }
   };
 
+  const handlePaste = (e: any) => {
+    e.preventDefault();
+    const text = e.clipboardData.getData('text/plain');
+    setQuery(query + text);
+  };
+
   return (
     <div className={styless.container}>
       <div className={styless['messages-wrapper']}>
@@ -107,6 +113,7 @@ export const Chat = () => {
           value={query}
           onChange={(val: string) => setQuery(val)}
           onSend={handleMessageSend}
+          onPaste={handlePaste}
           style={{ flexGrow: 1 }}
         />
 

@@ -12,7 +12,8 @@ const config = {
       'connect-src': ['${env:API_END_POINT}'],
     },
     permissionsPolicies: {
-      microphone: 'self',
+      microphone:
+        "'self' https://mc.australia-southeast1.gcp.commercetools.com/",
     },
   },
   env: {
