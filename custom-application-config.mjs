@@ -13,7 +13,7 @@ const config = {
     },
     permissionsPolicies: {
       microphone:
-        "'self' https://mc.australia-southeast1.gcp.commercetools.com/",
+        "'self' https://jj-custom-chatbot.vercel.app/ https://mc.australia-southeast1.gcp.commercetools.com/ https://mc.australia-southeast1.gcp.commercetools.com/ct-assessment/custom-chatbot",
     },
   },
   env: {
