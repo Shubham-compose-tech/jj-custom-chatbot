@@ -15,7 +15,12 @@ export const Chat = () => {
   const [messages, setMessages] = useState([
     {
       sender: 'system',
-      message: `Hello! How can I help you today?`,
+      message: `Hello! How can I help you today?
+      <br></br>
+      Please provide the query in the below format <br></br>
+      {QUERYFOR} : your query <br></br>
+      where QUERYFOR describes type of data you want to query for (customers, products, orders) <br></br> 
+      Example Query: customers: give first customer name`,
       direction: 'incoming',
     },
   ]);
@@ -79,6 +84,7 @@ export const Chat = () => {
         },
       ]);
     } catch (error) {
+      console.log('err', error);
       setMessages((prevMessages) => [
         ...prevMessages,
         {

@@ -3,10 +3,14 @@ import axios from 'axios';
 export const fetchProductDetails = async (queryTxt: string) => {
   try {
     const response = await axios.post(
-      'https://oc8ogahd5j.execute-api.us-west-2.amazonaws.com/products/details',
+      'https://oc8ogahd5j.execute-api.us-west-2.amazonaws.com/ai/query',
       { query: queryTxt },
       { headers: { 'Content-Type': 'application/json' } }
     );
+
+    if (response.data.status === 400) {
+      return response.data.message;
+    }
 
     const data = response.data;
     const messageText = data.data ?? data.data.error;
