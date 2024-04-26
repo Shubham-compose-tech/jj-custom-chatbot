@@ -8,23 +8,26 @@ import SpeechRecognition, {
   useSpeechRecognition,
 } from 'react-speech-recognition';
 import { IconMicrophone } from '@tabler/icons-react';
+import SelectField from '@commercetools-uikit/select-field';
 import { fetchProductDetails } from '../../apis/fetchProductDetails';
 
 export const Chat = () => {
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState<string>('');
+  const [queryDataType, setQueryDataType] = useState<
+    string | string[] | null | undefined
+  >('');
   const [messages, setMessages] = useState([
     {
       sender: 'system',
       message: `Hello! How can I help you today?
       <br></br>
+      Please select the type of data you wish to query from the dropdown menu.<br></br>
       Please provide the query in the below format <br></br>
-      {QUERYFOR} : your query <br></br>
-      where QUERYFOR describes type of data you want to query for (customers, products, orders) <br></br> 
-      Example Query: customers: give first customer name`,
+      Example Query: give me color of #wallet`,
       direction: 'incoming',
     },
   ]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const {
     transcript,
@@ -74,7 +77,9 @@ export const Chat = () => {
     ]);
     try {
       setLoading(true);
-      const formattedMessage = await fetchProductDetails(query);
+      const finalQuery = `${queryDataType}: ${query}`;
+      console.log('finalq -- ', finalQuery);
+      const formattedMessage = await fetchProductDetails(finalQuery);
       setMessages((prevMessages) => [
         ...prevMessages,
         {
@@ -112,6 +117,19 @@ export const Chat = () => {
       </div>
 
       <div className={styless['input-box']}>
+        <SelectField
+          title=""
+          horizontalConstraint={4}
+          value={queryDataType}
+          isMulti={false}
+          options={[
+            { value: 'customers', label: 'Customers' },
+            { value: 'products', label: 'Products' },
+            { value: 'orders', label: 'Orders' },
+          ]}
+          onChange={(e) => setQueryDataType(e.target.value)}
+        />
+
         <MessageInput
           autoFocus
           placeholder={listening ? 'Listening..' : 'Type your message…'}
@@ -121,6 +139,7 @@ export const Chat = () => {
           onSend={handleMessageSend}
           onPaste={handlePaste}
           style={{ flexGrow: 1 }}
+          className={styless.messageInput}
         />
 
         <button

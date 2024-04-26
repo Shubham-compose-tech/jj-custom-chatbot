@@ -49,6 +49,10 @@
     background: #fff;
 }
 
+.messageInput div{
+  border-radius:4px !important;
+}
+
 /* ripple effect */
 .mic-button {
     background: none;
