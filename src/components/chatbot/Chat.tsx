@@ -95,12 +95,15 @@ export const Chat = () => {
       ]);
       // setErrors([])
     } catch (error: any) {
-      setErrors((prevErrors) => [...prevErrors, error.response.data.message]);
+      setErrors((prevErrors) => [
+        ...prevErrors,
+        `ERROR: ${error.response.data.message}`,
+      ]);
       setMessages((prevMessages: any) => [
         ...prevMessages,
         {
           sender: 'system',
-          message: error.response.data.message,
+          message: `ERROR: ${error.response.data.message}`,
           direction: 'incoming',
         },
       ]);

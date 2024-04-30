@@ -36,6 +36,7 @@
 
 .error-msg div div{
   color:red!important;
+  font-weight:500;
 }
 
  .input-box{
@@ -57,6 +58,10 @@
   border-radius:4px !important;
   background-color: transparent;
   border: 1.4px solid hsl(232, 18%, 80%);
+}
+
+.messageInput div:focus{
+  outline: 1.4px solid hsl(240, 100%, 67%)!important;
 }
 
 .messageInput div div{
