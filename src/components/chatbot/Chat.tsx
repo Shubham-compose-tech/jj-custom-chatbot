@@ -11,12 +11,17 @@ import { IconMicrophone } from '@tabler/icons-react';
 import SelectField from '@commercetools-uikit/select-field';
 import { fetchProductDetails } from '../../apis/fetchProductDetails';
 
+export type IMessage = {
+  sender: string;
+  message: string;
+  direction: string;
+};
 export const Chat = () => {
   const [query, setQuery] = useState<string>('');
   const [queryDataType, setQueryDataType] = useState<
     string | string[] | null | undefined
   >('');
-  const [messages, setMessages] = useState([
+  const [messages, setMessages] = useState<IMessage[]>([
     {
       sender: 'system',
       message: `Hello! How can I help you today?
@@ -28,6 +33,7 @@ export const Chat = () => {
     },
   ]);
   const [loading, setLoading] = useState<boolean>(false);
+  const [errors, setErrors] = useState<string[]>([]);
 
   const {
     transcript,
@@ -78,7 +84,6 @@ export const Chat = () => {
     try {
       setLoading(true);
       const finalQuery = `${queryDataType}: ${query}`;
-      console.log('finalq -- ', finalQuery);
       const formattedMessage = await fetchProductDetails(finalQuery);
       setMessages((prevMessages) => [
         ...prevMessages,
@@ -88,13 +93,14 @@ export const Chat = () => {
           direction: 'incoming',
         },
       ]);
-    } catch (error) {
-      console.log('err', error);
-      setMessages((prevMessages) => [
+      // setErrors([])
+    } catch (error: any) {
+      setErrors((prevErrors) => [...prevErrors, error.response.data.message]);
+      setMessages((prevMessages: any) => [
         ...prevMessages,
         {
           sender: 'system',
-          message: 'Timeout :-/ try again later',
+          message: error.response.data.message,
           direction: 'incoming',
         },
       ]);
@@ -113,7 +119,12 @@ export const Chat = () => {
   return (
     <div className={styless.container}>
       <div className={styless['messages-wrapper']}>
-        <Messages messages={messages} loading={loading} />
+        <Messages
+          messages={messages}
+          setMessages={setMessages}
+          loading={loading}
+          errors={errors}
+        />
       </div>
 
       <div className={styless['input-box']}>

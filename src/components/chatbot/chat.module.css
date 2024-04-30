@@ -23,7 +23,6 @@
     flex-grow: 1; 
     overflow: auto; 
     height: 100%;
-    background: yellow;
 }
 
 .message-box div div{
@@ -35,11 +34,9 @@
     color: #1d1c1d!important;
 }
 
-/* .typing-indicator{
-    position: absolute;
-    bottom: 1rem !important;
-    width: max-content!important;
-} */
+.error-msg div div{
+  color:red!important;
+}
 
  .input-box{
     display: flex;
@@ -47,10 +44,27 @@
     bottom: 0;
     width:100%; 
     background: #fff;
+    justify-content:center;
+    align-items:center;
+}
+
+.messageInput{
+  height: 40px;
+  margin-top: 3px;
 }
 
 .messageInput div{
   border-radius:4px !important;
+  background-color: transparent;
+  border: 1.4px solid hsl(232, 18%, 80%);
+}
+
+.messageInput div div{
+  border:none;
+}
+
+.messageInput div:nth-child(2) button{
+  border:none;
 }
 
 /* ripple effect */

@@ -7,7 +7,7 @@ import {
 } from '@chatscope/chat-ui-kit-react';
 import styless from './chat.module.css';
 
-const Messages = ({ messages, loading }: any) => {
+const Messages = ({ messages, loading, errors }: any) => {
   const handleCopy = (e: React.ClipboardEvent<HTMLDivElement>) => {
     e.preventDefault();
     const selectedText = window.getSelection()?.toString() ?? '';
@@ -31,7 +31,9 @@ const Messages = ({ messages, loading }: any) => {
           <Message
             key={index}
             model={message}
-            className={styless['message-box']}
+            className={`${styless['message-box']} ${
+              errors.includes(message.message) && styless['error-msg']
+            } `}
             onCopy={(e: React.ClipboardEvent<HTMLDivElement>) => handleCopy(e)}
           >
             <Avatar
