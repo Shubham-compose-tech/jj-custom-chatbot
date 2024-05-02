@@ -11,8 +11,6 @@
 .messages-wrapper{
   overflow-y: auto;
   height: calc(100% - 50px); 
-  background: yellow;
-  /* max-height: 95%; */
 }
 
 
@@ -35,8 +33,16 @@
 }
 
 .error-msg div div{
-  color:red!important;
   font-weight:500;
+  display:flex;
+  align-items:flex-end;
+  background-color: #ff00001f!important;
+  border: 1px solid red;
+}
+
+.error-msg div div div{
+  background-color: transparent!important;
+  border:none;
 }
 
  .input-box{
@@ -52,15 +58,17 @@
 .messageInput{
   height: 40px;
   margin-top: 3px;
+  border: 1.4px solid hsl(232, 18%, 80%);
+  border-radius:4px !important;
 }
 
 .messageInput div{
-  border-radius:4px !important;
+  
   background-color: transparent;
-  border: 1.4px solid hsl(232, 18%, 80%);
+  border: none;
 }
 
-.messageInput div:focus{
+.messageInput:focus{
   outline: 1.4px solid hsl(240, 100%, 67%)!important;
 }
 

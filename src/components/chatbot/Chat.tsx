@@ -1,5 +1,6 @@
 import 'regenerator-runtime';
 import { useEffect, useState } from 'react';
+import { renderToString } from 'react-dom/server';
 import '@chatscope/chat-ui-kit-styles/dist/default/styles.min.css';
 import { MessageInput } from '@chatscope/chat-ui-kit-react';
 import Messages from './Messages';
@@ -7,7 +8,7 @@ import styless from './chat.module.css';
 import SpeechRecognition, {
   useSpeechRecognition,
 } from 'react-speech-recognition';
-import { IconMicrophone } from '@tabler/icons-react';
+import { IconAlertTriangle, IconMicrophone } from '@tabler/icons-react';
 import SelectField from '@commercetools-uikit/select-field';
 import { fetchProductDetails } from '../../apis/fetchProductDetails';
 
@@ -81,6 +82,7 @@ export const Chat = () => {
         direction: 'outgoing',
       },
     ]);
+    setQuery('');
     try {
       setLoading(true);
       const finalQuery = `${queryDataType}: ${query}`;
@@ -97,13 +99,23 @@ export const Chat = () => {
     } catch (error: any) {
       setErrors((prevErrors) => [
         ...prevErrors,
-        `ERROR: ${error.response.data.message}`,
+        renderToString(
+          <div>
+            <IconAlertTriangle color="red" size={18} stroke={3} />
+            &nbsp;{error.response.data.message}
+          </div>
+        ),
       ]);
       setMessages((prevMessages: any) => [
         ...prevMessages,
         {
           sender: 'system',
-          message: `ERROR: ${error.response.data.message}`,
+          message: renderToString(
+            <div>
+              <IconAlertTriangle color="red" size={18} stroke={3} />
+              &nbsp;{error.response.data.message}
+            </div>
+          ),
           direction: 'incoming',
         },
       ]);
