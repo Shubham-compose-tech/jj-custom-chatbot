@@ -45,6 +45,10 @@
   border:none;
 }
 
+#select-data{
+  border: 1.4px solid red !important;
+}
+
  .input-box{
     display: flex;
     position: absolute;

@@ -35,6 +35,7 @@ export const Chat = () => {
   ]);
   const [loading, setLoading] = useState<boolean>(false);
   const [errors, setErrors] = useState<string[]>([]);
+  const [showErrorBorder, setShowErrorBorder] = useState<boolean>(false);
 
   const {
     transcript,
@@ -97,6 +98,7 @@ export const Chat = () => {
       ]);
       // setErrors([])
     } catch (error: any) {
+      setShowErrorBorder(true);
       setErrors((prevErrors) => [
         ...prevErrors,
         renderToString(
@@ -153,6 +155,12 @@ export const Chat = () => {
             { value: 'products', label: 'Products' },
             { value: 'orders', label: 'Orders' },
           ]}
+          onFocus={() => setShowErrorBorder(false)}
+          containerId={
+            queryDataType === '' && showErrorBorder
+              ? styless['select-data']
+              : ''
+          }
           onChange={(e) => setQueryDataType(e.target.value)}
         />
 
