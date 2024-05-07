@@ -11,8 +11,6 @@
 .messages-wrapper{
   overflow-y: auto;
   height: calc(100% - 50px); 
-  background: yellow;
-  /* max-height: 95%; */
 }
 
 
@@ -23,7 +21,6 @@
     flex-grow: 1; 
     overflow: auto; 
     height: 100%;
-    background: yellow;
 }
 
 .message-box div div{
@@ -35,11 +32,22 @@
     color: #1d1c1d!important;
 }
 
-/* .typing-indicator{
-    position: absolute;
-    bottom: 1rem !important;
-    width: max-content!important;
-} */
+.error-msg div div{
+  font-weight:500;
+  display:flex;
+  align-items:flex-end;
+  background-color: #ff00001f!important;
+  border: 1px solid red;
+}
+
+.error-msg div div div{
+  background-color: transparent!important;
+  border:none;
+}
+
+#select-data{
+  border: 1.4px solid red !important;
+}
 
  .input-box{
     display: flex;
@@ -47,6 +55,33 @@
     bottom: 0;
     width:100%; 
     background: #fff;
+    justify-content:center;
+    align-items:center;
+}
+
+.messageInput{
+  height: 40px;
+  margin-top: 3px;
+  border: 1.4px solid hsl(232, 18%, 80%);
+  border-radius:4px !important;
+}
+
+.messageInput div{
+  
+  background-color: transparent;
+  border: none;
+}
+
+.messageInput:focus{
+  outline: 1.4px solid hsl(240, 100%, 67%)!important;
+}
+
+.messageInput div div{
+  border:none;
+}
+
+.messageInput div:nth-child(2) button{
+  border:none;
 }
 
 /* ripple effect */

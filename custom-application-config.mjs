@@ -7,18 +7,21 @@ const config = {
   name: 'Custom Chatbot',
   entryPointUriPath,
   cloudIdentifier: 'gcp-au',
-  headers:{
-    csp:{
-      "connect-src": ["${env:API_END_POINT}"],
-    }
+  headers: {
+    csp: {
+      'connect-src': ['${env:API_END_POINT}'],
+    },
+    "permissionsPolicies": {
+      microphone: '(self https://jj-custom-chatbot.vercel.app https://mc.australia-southeast1.gcp.commercetools.com https://mc.australia-southeast1.gcp.commercetools.com/ct-assessment/custom-chatbot)',
+    },
   },
   env: {
     development: {
       initialProjectKey: 'ct-assessment',
     },
     production: {
-      applicationId: "${env:APPLICATION_ID}",
-      url: "${env:APP_URL}",
+      applicationId: '${env:APPLICATION_ID}',
+      url: '${env:APP_URL}',
     },
   },
   oAuthScopes: {
