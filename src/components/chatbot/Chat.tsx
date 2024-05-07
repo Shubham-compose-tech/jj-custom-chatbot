@@ -20,43 +20,78 @@ export const Chat = () => {
     },
   ]);
   const [loading, setLoading] = useState(false);
+  const [listening, setListening] = useState(false);
 
-  const {
-    transcript,
-    listening,
-    resetTranscript,
-    browserSupportsSpeechRecognition,
-  } = useSpeechRecognition();
+  // const {
+  //   transcript,
+  //   listening,
+  //   resetTranscript,
+  //   browserSupportsSpeechRecognition,
+  // } = useSpeechRecognition();
 
-  if (!browserSupportsSpeechRecognition) {
-    return <span>Speech recognition is not supported.</span>;
-  }
+  // if (!browserSupportsSpeechRecognition) {
+  //   return <span>Speech recognition is not supported.</span>;
+  // }
 
-  const requestMicrophonePermission = async () => {
-    try {
-      await navigator.mediaDevices.getUserMedia({ audio: true });
-    } catch (error) {
-      console.error('Error accessing microphone:', error);
-    }
-  };
+  // const requestMicrophonePermission = async () => {
+  //   try {
+  //     await navigator.mediaDevices.getUserMedia({ audio: true });
+  //   } catch (error) {
+  //     console.error('Error accessing microphone:', error);
+  //   }
+  // };
+
+  const recognition = new window.SpeechRecognition();
+  useEffect(() => {
+    
+
+    recognition.onstart = () => {
+      setListening(true);
+    };
+
+    recognition.onresult = (event) => {
+      const current = event.resultIndex;
+      const final = event.results[current].isFinal;
+
+      if (final) {
+        setQuery(event.results[current][0].transcript);
+      }
+    };
+
+    recognition.onerror = (error) => {
+      console.error(error);
+    };
+
+    return () => {
+      recognition.abort(); // Clean up on unmount
+    };
+  }, []); 
 
   const toggleListening = () => {
-    if (!listening) {
-      requestMicrophonePermission().then(() => {
-        resetTranscript();
-        SpeechRecognition.startListening();
-      });
-    } else {
-      SpeechRecognition.stopListening();
+    // if (!listening) {
+    //   requestMicrophonePermission().then(() => {
+    //     resetTranscript();
+    //     SpeechRecognition.startListening();
+    //   });
+    // } else {
+    //   SpeechRecognition.stopListening();
+    // }
+
+    if(!listening){
+      setListening(true);
+    recognition.start();
+    }else{
+      setListening(false);
+    recognition.stop();
     }
   };
 
-  useEffect(() => {
-    if (transcript) {
-      // Update chatbot state with the recognized speech (transcript)
-      setQuery(transcript);
-    }
-  }, [transcript]);
+  // useEffect(() => {
+  //   if (transcript) {
+  //     // Update chatbot state with the recognized speech (transcript)
+  //     setQuery(transcript);
+  //   }
+  // }, [transcript]);
 
   const handleMessageSend = async () => {
     setMessages([
