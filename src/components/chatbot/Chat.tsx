@@ -1,13 +1,13 @@
 import 'regenerator-runtime';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { renderToString } from 'react-dom/server';
 import '@chatscope/chat-ui-kit-styles/dist/default/styles.min.css';
 import { MessageInput } from '@chatscope/chat-ui-kit-react';
 import Messages from './Messages';
 import styless from './chat.module.css';
-import SpeechRecognition, {
-  useSpeechRecognition,
-} from 'react-speech-recognition';
+// import SpeechRecognition, {
+//   useSpeechRecognition,
+// } from 'react-speech-recognition';
 import { IconAlertTriangle, IconMicrophone } from '@tabler/icons-react';
 import SelectField from '@commercetools-uikit/select-field';
 import { fetchProductDetails } from '../../apis/fetchProductDetails';
@@ -36,43 +36,64 @@ export const Chat = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [errors, setErrors] = useState<string[]>([]);
   const [showErrorBorder, setShowErrorBorder] = useState<boolean>(false);
+  const [listening, setListening] = useState(false);
 
-  const {
-    transcript,
-    listening,
-    resetTranscript,
-    browserSupportsSpeechRecognition,
-  } = useSpeechRecognition();
+  const SpeechRecognition =
+    window.SpeechRecognition || window.webkitSpeechRecognition;
+  const recognition = new SpeechRecognition();
 
-  if (!browserSupportsSpeechRecognition) {
-    return <span>Speech recognition is not supported.</span>;
-  }
+  // const {
+  //   transcript,
+  //   listening,
+  //   resetTranscript,
+  //   browserSupportsSpeechRecognition,
+  // } = useSpeechRecognition();
 
-  const requestMicrophonePermission = async () => {
-    try {
-      await navigator.mediaDevices.getUserMedia({ audio: true });
-    } catch (error) {
-      console.error('Error accessing microphone:', error);
-    }
+  // if (!browserSupportsSpeechRecognition) {
+  //   return <span>Speech recognition is not supported.</span>;
+  // }
+
+  // const requestMicrophonePermission = async () => {
+  //   try {
+  //     await navigator.mediaDevices.getUserMedia({ audio: true });
+  //   } catch (error) {
+  //     console.error('Error accessing microphone:', error);
+  //   }
+  // };
+
+  recognition.onerror = (error) => {
+    console.error(error);
   };
 
   const toggleListening = () => {
+    // if (!listening) {
+    //   requestMicrophonePermission().then(() => {
+    //     resetTranscript();
+    //     SpeechRecognition.startListening();
+    //   });
+    // } else {
+    //   SpeechRecognition.stopListening();
+    // }
     if (!listening) {
-      requestMicrophonePermission().then(() => {
-        resetTranscript();
-        SpeechRecognition.startListening();
-      });
+      recognition.start();
+      setListening(true);
+      recognition.onresult = (event) => {
+        console.log('event', event);
+        const newTranscript = event.results[0][0].transcript;
+        setQuery(query + newTranscript);
+      };
     } else {
-      SpeechRecognition.stopListening();
+      recognition.stop();
+      setListening(false);
     }
   };
 
-  useEffect(() => {
-    if (transcript) {
-      // Update chatbot state with the recognized speech (transcript)
-      setQuery(transcript);
-    }
-  }, [transcript]);
+  // useEffect(() => {
+  //   if (transcript) {
+  //     // Update chatbot state with the recognized speech (transcript)
+  //     setQuery(transcript);
+  //   }
+  // }, [transcript]);
 
   const handleMessageSend = async () => {
     setMessages([
